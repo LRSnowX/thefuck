@@ -91,11 +91,26 @@ Reading package lists... Done
 ...
 ```
 
+## Contents
+
+1. [Requirements](#requirements)
+2. [Installations](#installation)
+3. [Updating](#updating)
+4. [How it works](#how-it-works)
+5. [Creating your own rules](#creating-your-own-rules)
+6. [Settings](#settings)
+7. [Third party packages with rules](#third-party-packages-with-rules)
+8. [Experimental instant mode](#experimental-instant-mode)
+9. [Developing](#developing)
+10. [License](#license-mit)
+
 ## Requirements
 
 - python (3.4+)
 - pip
 - python-dev
+
+##### [Back to Contents](#contents)
 
 ## Installation
 
@@ -157,6 +172,8 @@ To fix commands recursively until succeeding, use the `-r` option:
 fuck -r
 ```
 
+##### [Back to Contents](#contents)
+
 ## Updating
 
 ```bash
@@ -179,6 +196,7 @@ following rules are enabled by default:
 * `cargo_no_command` &ndash; fixes wrongs commands like `cargo buid`;
 * `cat_dir` &ndash; replaces `cat` with `ls` when you try to `cat` a directory;
 * `cd_correction` &ndash; spellchecks and correct failed cd commands;
+* `cd_cs` &ndash; changes `cs` to `cd`;
 * `cd_mkdir` &ndash; creates directories before cd'ing into them;
 * `cd_parent` &ndash; changes `cd..` to `cd ..`;
 * `chmod_x` &ndash; add execution bit;
@@ -273,13 +291,13 @@ following rules are enabled by default:
 * `npm_wrong_command` &ndash; fixes wrong npm commands like `npm urgrade`;
 * `no_command` &ndash; fixes wrong console commands, for example `vom/vim`;
 * `no_such_file` &ndash; creates missing directories with `mv` and `cp` commands;
+* `omnienv_no_such_command` &ndash; fixes wrong commands for `goenv`, `nodenv`, `pyenv` and `rbenv` (eg.: `pyenv isntall` or `goenv list`);
 * `open` &ndash; either prepends `http://` to address passed to `open` or create a new file or directory and passes it to `open`;
 * `pip_install` &ndash; fixes permission issues with `pip install` commands by adding `--user` or prepending `sudo` if necessary;
 * `pip_unknown_command` &ndash; fixes wrong `pip` commands, for example `pip instatl/pip install`;
 * `php_s` &ndash; replaces `-s` by `-S` when trying to run a local php server;
 * `port_already_in_use` &ndash; kills process that bound port;
 * `prove_recursively` &ndash; adds `-r` when called with directory;
-* `pyenv_no_such_command` &ndash; fixes wrong pyenv commands like `pyenv isntall` or `pyenv list`;
 * `python_command` &ndash; prepends `python` when you try to run non-executable/without `./` python script;
 * `python_execute` &ndash; appends missing `.py` when executing Python files;
 * `python_module_error` &ndash; fixes ModuleNotFoundError by trying to `pip install` that module;
@@ -313,6 +331,8 @@ following rules are enabled by default:
 * `yarn_command_replaced` &ndash; fixes replaced `yarn` commands;
 * `yarn_help` &ndash; makes it easier to open `yarn` documentation;
 
+##### [Back to Contents](#contents)
+
 The following rules are enabled by default on specific platforms only:
 
 * `apt_get` &ndash; installs app from apt if it not installed (requires `python-commandnotfound` / `python3-commandnotfound`);
@@ -339,6 +359,8 @@ default:
 
 * `git_push_force` &ndash; adds `--force-with-lease` to a `git push` (may conflict with `git_push_pull`);
 * `rm_root` &ndash; adds `--no-preserve-root` to `rm -rf /` command.
+
+##### [Back to Contents](#contents)
 
 ## Creating your own rules
 
@@ -393,6 +415,8 @@ requires_output = True
 [utility functions for rules](https://github.com/nvbn/thefuck/tree/master/thefuck/utils.py),
 [app/os-specific helpers](https://github.com/nvbn/thefuck/tree/master/thefuck/specific/).
 
+##### [Back to Contents](#contents)
+
 ## Settings
 
 Several *The Fuck* parameters can be changed in the file `$XDG_CONFIG_HOME/thefuck/settings.py`
@@ -410,6 +434,7 @@ Several *The Fuck* parameters can be changed in the file `$XDG_CONFIG_HOME/thefu
 * `wait_slow_command` &ndash; max amount of time in seconds for getting previous command output if it in `slow_commands` list;
 * `slow_commands` &ndash; list of slow commands;
 * `num_close_matches` &ndash; maximum number of close matches to suggest, by default `3`.
+* `excluded_search_path_prefixes` &ndash; path prefixes to ignore when searching for commands, by default `[]`.
 
 An example of `settings.py`:
 
@@ -442,6 +467,7 @@ rule with lower `priority` will be matched first;
 * `THEFUCK_WAIT_SLOW_COMMAND` &ndash; max amount of time in seconds for getting previous command output if it in `slow_commands` list;
 * `THEFUCK_SLOW_COMMANDS` &ndash; list of slow commands, like `lein:gradle`;
 * `THEFUCK_NUM_CLOSE_MATCHES` &ndash; maximum number of close matches to suggest, like `5`.
+* `THEFUCK_EXCLUDED_SEARCH_PATH_PREFIXES` &ndash; path prefixes to ignore when searching for commands, by default `[]`.
 
 For example:
 
@@ -455,6 +481,8 @@ export THEFUCK_PRIORITY='no_command=9999:apt_get=100'
 export THEFUCK_HISTORY_LIMIT='2000'
 export THEFUCK_NUM_CLOSE_MATCHES='5'
 ```
+
+##### [Back to Contents](#contents)
 
 ## Third-party packages with rules
 
@@ -475,6 +503,8 @@ thefuck_contrib_foo
 
 *The Fuck* will find rules located in the `rules` module.
 
+##### [Back to Contents](#contents)
+
 ## Experimental instant mode
 
 The default behavior of *The Fuck* requires time to re-run previous commands.
@@ -494,6 +524,8 @@ For example:
 eval $(thefuck --alias --enable-experimental-instant-mode)
 ```
 
+##### [Back to Contents](#contents)
+
 ## Developing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md)
@@ -504,8 +536,8 @@ Project License can be found [here](LICENSE.md).
 
 [version-badge]:   https://img.shields.io/pypi/v/thefuck.svg?label=version
 [version-link]:    https://pypi.python.org/pypi/thefuck/
-[workflow-badge]:  https://github.com/divykj/thefuck/workflows/Tests/badge.svg
-[workflow-link]:   https://github.com/divykj/thefuck/actions?query=workflow%3ATests
+[workflow-badge]:  https://github.com/nvbn/thefuck/workflows/Tests/badge.svg
+[workflow-link]:   https://github.com/nvbn/thefuck/actions?query=workflow%3ATests
 [coverage-badge]:  https://img.shields.io/coveralls/nvbn/thefuck.svg
 [coverage-link]:   https://coveralls.io/github/nvbn/thefuck
 [license-badge]:   https://img.shields.io/badge/license-MIT-007EC7.svg
@@ -513,3 +545,5 @@ Project License can be found [here](LICENSE.md).
 [instant-mode-gif-link]:   https://raw.githubusercontent.com/nvbn/thefuck/master/example_instant_mode.gif
 [homebrew]:        https://brew.sh/
 [linuxbrew]:       https://linuxbrew.sh/
+
+##### [Back to Contents](#contents)
