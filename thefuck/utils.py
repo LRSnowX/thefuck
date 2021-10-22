@@ -180,13 +180,13 @@ def is_app(command, *app_names, **kwargs):
         raise TypeError("got an unexpected keyword argument '{}'".format(kwargs.keys()))
 
     if len(command.script_parts) > at_least:
-        return command.script_parts[0] in app_names
+        return os.path.basename(command.script_parts[0]) in app_names
 
     return False
 
 
 def for_app(*app_names, **kwargs):
-    """Specifies that matching script is for on of app names."""
+    """Specifies that matching script is for one of app names."""
     def _for_app(fn, command):
         if is_app(command, *app_names, **kwargs):
             return fn(command)
@@ -294,10 +294,15 @@ def cache(*depends_on):
 cache.disabled = False
 
 
-def get_installation_info():
-    import pkg_resources
+def get_installation_version():
+    try:
+        from importlib.metadata import version
 
-    return pkg_resources.require('thefuck')[0]
+        return version('thefuck')
+    except ImportError:
+        import pkg_resources
+
+        return pkg_resources.require('thefuck')[0].version
 
 
 def get_alias():
@@ -339,4 +344,4 @@ def format_raw_script(raw_script):
     else:
         script = ' '.join(raw_script)
 
-    return script.strip()
+    return script.lstrip()
